@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, Image, VStack, Text } from 'native-base';
+import {HStack, Image, VStack, Text} from 'native-base';
 
 export default function Header() {
   return (

@@ -1,16 +1,16 @@
-import { Text, ScrollView, VStack, Image, HStack, View } from 'native-base';
-import React, { FC } from 'react';
+import {Text, ScrollView, VStack, Image, HStack, View} from 'native-base';
+import React, {FC} from 'react';
 import {
   ImageSourcePropType,
   ImageURISource,
   TouchableOpacity,
 } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {EvilIcons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
-import { useDispatch, useSelector } from '../../../hooks/useRedux';
-import { addToCart } from '../../../store/reducers/cart/cartSlice';
-import { selectCategories } from '../../../store/reducers/categories/categorySlice';
+import {useDispatch, useSelector} from '../../../hooks/useRedux';
+import {addToCart} from '../../../store/reducers/cart/cartSlice';
+import {selectCategories} from '../../../store/reducers/categories/categorySlice';
 import MealSkeleton from './MealSkelleton';
 
 export interface SlideShowProps {
@@ -24,14 +24,27 @@ export type SlideItem = {
   calories: string;
   price: string;
   time: string;
-  imgSrc: ImageURISource | ImageSourcePropType | { uri: string };
-  category: string
+  imgSrc: ImageURISource | ImageSourcePropType | {uri: string};
+  category: string;
 };
 
-const SlideCards = ({ imgSrc, calories, title, price, time, category }: SlideItem) => {
+const SlideCards = ({
+  imgSrc,
+  calories,
+  title,
+  price,
+  time,
+  category,
+}: SlideItem) => {
   const dispatch = useDispatch();
   return (
-    <VStack w={200} alignItems="center" p="4" mr="4" bg="gray.200" rounded="3xl">
+    <VStack
+      w={200}
+      alignItems="center"
+      p="4"
+      mr="4"
+      bg="gray.200"
+      rounded="3xl">
       <Text fontWeight="bold" fontSize={14}>
         {title}
       </Text>
@@ -42,7 +55,11 @@ const SlideCards = ({ imgSrc, calories, title, price, time, category }: SlideIte
         {price}
       </Text>
       <Image mt="4" size="xl" rounded="full" source={imgSrc} alt={title} />
-      <HStack alignItems="center" justifyContent="space-between" w="100%" mt="5">
+      <HStack
+        alignItems="center"
+        justifyContent="space-between"
+        w="100%"
+        mt="5">
         <VStack>
           <Text mb="2" fontSize={'11px'} lineHeight={'15px'} fontWeight={'600'}>
             {'🔥 ' + calories + ' Calories'}
@@ -58,14 +75,19 @@ const SlideCards = ({ imgSrc, calories, title, price, time, category }: SlideIte
             </Text>
           </HStack>
         </VStack>
-        <TouchableOpacity onPress={() => dispatch(addToCart({
-          calories,
-          imgSrc: imgSrc as { uri: string; },
-          price,
-          time,
-          title,
-          category
-        }))}>
+        <TouchableOpacity
+          onPress={() =>
+            dispatch(
+              addToCart({
+                calories,
+                imgSrc: imgSrc as {uri: string},
+                price,
+                time,
+                title,
+                category,
+              }),
+            )
+          }>
           <View
             bg="white"
             w="40px"
@@ -82,14 +104,14 @@ const SlideCards = ({ imgSrc, calories, title, price, time, category }: SlideIte
         </TouchableOpacity>
       </HStack>
     </VStack>
-  )
-}
+  );
+};
 
-const Sliders: FC<SlideShowProps> = ({ items, maxH, ...rest }) => {
-  const categoryState = useSelector(selectCategories)
+const Sliders: FC<SlideShowProps> = ({items, maxH, ...rest}) => {
+  const categoryState = useSelector(selectCategories);
 
   if (categoryState.mealStatus === 'loading') {
-    return <MealSkeleton />
+    return <MealSkeleton />;
   }
   return (
     <>
