@@ -1,35 +1,57 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StatusBar, Dimensions } from 'react-native';
 
-import {Text, View} from '../../components/Themed';
-import {RootStackScreenProps} from '../../../types';
+import { RootStackScreenProps } from '../../../types';
+import { KeyboardAvoidingView, ScrollView, View } from 'native-base';
+import Header from './components/Header';
+import { useDispatch, useSelector } from '../../hooks/useRedux';
+import { selectCartItems, updateCartItem } from '../../store/reducers/cart/cartSlice';
+import Heading from './components/Heading';
+import Footer from './components/Footer';
 
-export default function DetailScreen({}: RootStackScreenProps<'DetalScreen'>) {
+const SCREEN_HIGHT = Dimensions.get('screen').height
+export default function DetailScreen({ navigation, route }: RootStackScreenProps<'DetalScreen'>) {
+  const cartItems = useSelector(selectCartItems).cartItems
+  const dispatch = useDispatch();
+
+  const cartItem = cartItems.find((itm) => itm.title === route.params.cartItem)
+  if (!cartItem) {
+    navigation.goBack()
+    return
+  }
+  const handleBackPress = () => {
+    navigation.goBack()
+  }
+  const handleIncreaseItemQty = () => {
+    dispatch(updateCartItem({
+      title: cartItem.title,
+      quantity: cartItem.quantity + 1
+    }))
+  }
+  const handleDecreaseItemQty = () => {
+    if (cartItem.quantity <= 1) return
+    dispatch(updateCartItem({
+      title: cartItem.title,
+      quantity: cartItem.quantity - 1
+    }))
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Detail Screen</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-    </View>
+    <KeyboardAvoidingView
+      backgroundColor="green.600"
+      flex={1}
+      paddingTop={StatusBar.currentHeight}>
+      <ScrollView
+        flex={1}
+        height="100%"
+        keyboardShouldPersistTaps={'handled'}
+        showsVerticalScrollIndicator={false}>
+        <Header handleBackPress={handleBackPress} />
+        <View flex={1} bg='white' h={SCREEN_HIGHT / 1.25} borderTopRadius='30px' mt='24' />
+        <View position='absolute' top='7%' h={SCREEN_HIGHT} w='100%'>
+          <Heading {...cartItem} />
+          <Footer handleIncreaseItemQty={handleIncreaseItemQty} handleDecreaseItemQty={handleDecreaseItemQty} quantity={cartItem.quantity} />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

@@ -1,9 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, FC } from 'react'
 import { Animated, Easing, TouchableOpacity } from "react-native";
 import { HStack, Image, Pressable, Text, useTheme, View, VStack } from 'native-base'
 import { useSelector } from ".././../../hooks/useRedux";
 import { selectCartItems } from '../../../store/reducers/cart/cartSlice';
-function Cart() {
+
+interface Props {
+    handleNavigateToDetailsScreen: (cartItem: string) => void
+}
+const Cart: FC<Props> = ({ handleNavigateToDetailsScreen }) => {
     const { colors } = useTheme();
     const animation = useRef<Animated.Value>(new Animated.Value(100));
     const cartItems = useSelector(selectCartItems).cartItems
@@ -38,11 +42,11 @@ function Cart() {
                         </Text>
                     </VStack>
                     {!showAll && <HStack>
-                        {firstTwo.map((itm) => <TouchableOpacity key={itm.title}><Image alt={itm.title} ml='2' source={itm.imgSrc} h='45px' w='45px' rounded='full' /></TouchableOpacity>)}
+                        {firstTwo.map((itm) => <TouchableOpacity onPress={() => handleNavigateToDetailsScreen(itm.title)} key={itm.title}><Image alt={itm.title} ml='2' source={itm.imgSrc} h='45px' w='45px' rounded='full' /></TouchableOpacity>)}
                     </HStack>}
                 </HStack>
                 {showAll && <HStack alignSelf='center'>
-                    {cartItems.map((itm) => <TouchableOpacity key={itm.title}><Image alt={itm.title} ml='2' source={itm.imgSrc} h='45px' w='45px' rounded='full' /></TouchableOpacity>)}
+                    {cartItems.map((itm) => <TouchableOpacity onPress={() => handleNavigateToDetailsScreen(itm.title)} key={itm.title}><Image alt={itm.title} ml='2' source={itm.imgSrc} h='45px' w='45px' rounded='full' /></TouchableOpacity>)}
                 </HStack>}
             </Animated.View>
         </View>

@@ -16,6 +16,7 @@ export interface Meal {
   calories: string;
   price: string;
   time: string;
+  category: string;
 }
 export interface InitialState {
   categories: Category[];
@@ -40,7 +41,7 @@ export const categorySlice = createSlice({
   initialState,
   reducers: {
     setPickedCategory: (state, action: PayloadAction<string>) => {
-      state.pickedCategory = action.payload
+      state.pickedCategory = action.payload;
     },
   },
   extraReducers: builder => {

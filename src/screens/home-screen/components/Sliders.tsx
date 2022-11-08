@@ -25,9 +25,10 @@ export type SlideItem = {
   price: string;
   time: string;
   imgSrc: ImageURISource | ImageSourcePropType | { uri: string };
+  category: string
 };
 
-const SlideCards = ({ imgSrc, calories, title, price, time }: SlideItem) => {
+const SlideCards = ({ imgSrc, calories, title, price, time, category }: SlideItem) => {
   const dispatch = useDispatch();
   return (
     <VStack w={200} alignItems="center" p="4" mr="4" bg="gray.200" rounded="3xl">
@@ -59,10 +60,11 @@ const SlideCards = ({ imgSrc, calories, title, price, time }: SlideItem) => {
         </VStack>
         <TouchableOpacity onPress={() => dispatch(addToCart({
           calories,
-          imgSrc: imgSrc as { uri: string },
+          imgSrc: imgSrc as { uri: string; },
           price,
           time,
-          title
+          title,
+          category
         }))}>
           <View
             bg="white"

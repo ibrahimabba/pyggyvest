@@ -17,7 +17,7 @@ import {
 } from '../../store/reducers/categories/categoryThunks';
 import Cart from './components/Cart';
 
-export default function HomeScreen({ }: RootStackScreenProps<'HomeScreen'>) {
+export default function HomeScreen({ navigation }: RootStackScreenProps<'HomeScreen'>) {
   const [searchQuery, setSearchQuery] = useState('');
   const categoryState = useSelector(selectCategories);
   const dispatch = useDispatch();
@@ -40,6 +40,11 @@ export default function HomeScreen({ }: RootStackScreenProps<'HomeScreen'>) {
   const handleSearchText = (txt: string) => {
     setSearchQuery(txt)
   }
+  const handleNavigateToDetailsScreen = (cartItem: string) => {
+    navigation.navigate('DetalScreen', {
+      cartItem
+    })
+  }
 
   return (
     <KeyboardAvoidingView
@@ -57,7 +62,7 @@ export default function HomeScreen({ }: RootStackScreenProps<'HomeScreen'>) {
         <Title title="Popular Items" />
         <Sliders items={categoryState.meals} />
       </ScrollView>
-      <Cart />
+      <Cart handleNavigateToDetailsScreen={handleNavigateToDetailsScreen} />
     </KeyboardAvoidingView>
   );
 }

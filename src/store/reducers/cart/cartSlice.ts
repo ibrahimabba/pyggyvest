@@ -32,30 +32,28 @@ export const cartSlice = createSlice({
           ...action.payload,
           quantity: 1,
         });
-        state.cartItems = cartItems
+        state.cartItems = cartItems;
       }
     },
-    // deletFromCart: (state, action: PayloadAction<Meal>) => {
-    //   const cartItems = [...state.cartItems];
-    //   const existingCartIndex = cartItems.findIndex(
-    //     itm => itm.title === action.payload.title,
-    //   );
-    //   if (existingCartIndex !== -1) {
-    //     const updatedCartItem = cartItems[existingCartIndex];
-    //     updatedCartItem.quantity = updatedCartItem.quantity + 1;
-    //     cartItems.splice(existingCartIndex, 1, updatedCartItem);
-    //     state.cartItems = cartItems;
-    //   } else {
-    //     cartItems.push({
-    //       ...action.payload,
-    //       quantity: 1,
-    //     });
-    //   }
-    // },
+    updateCartItem: (
+      state,
+      action: PayloadAction<{title: string; quantity: number}>,
+    ) => {
+      const cartItems = [...state.cartItems];
+      const existingCartIndex = cartItems.findIndex(
+        itm => itm.title === action.payload.title,
+      );
+      if (existingCartIndex !== -1) {
+        const updatedCartItem = cartItems[existingCartIndex];
+        updatedCartItem.quantity = action.payload.quantity;
+        cartItems.splice(existingCartIndex, 1, updatedCartItem);
+        state.cartItems = cartItems;
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {addToCart} = cartSlice.actions;
+export const {addToCart, updateCartItem} = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart;
 export default cartSlice.reducer;
