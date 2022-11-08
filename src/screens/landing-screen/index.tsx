@@ -1,37 +1,23 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
+import { KeyboardAvoidingView } from 'native-base';
 import { RootStackScreenProps } from '../../../types';
+import Swiper from './components/Swiper';
+import Header from '../../components/header';
+import Footer from './components/footer';
+import { images } from './landingImages';
 
-export default function LandingScreen({ }: RootStackScreenProps<'LandingScreen'>) {
+export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingScreen'>) {
+
+  const handleLogin = () => {
+    navigation.navigate('HomeScreen')
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Landing Screen</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <KeyboardAvoidingView backgroundColor='black' flex={1}>
+      <Header />
+      <Swiper images={images} />
+      <Footer handleLogin={handleLogin} />
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
