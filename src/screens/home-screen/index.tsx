@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { KeyboardAvoidingView, ScrollView } from 'native-base';
 
@@ -15,24 +15,32 @@ import {
   fetchCategoriesAsync,
   fetchMealCategoriesAsync,
 } from '../../store/reducers/categories/categoryThunks';
-import CategorySkeleton from './components/CategorySkelleton';
 import Cart from './components/Cart';
 
 export default function HomeScreen({ }: RootStackScreenProps<'HomeScreen'>) {
+  const [searchQuery, setSearchQuery] = useState('');
   const categoryState = useSelector(selectCategories);
   const dispatch = useDispatch();
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    fetchMeals();
+  }, [categoryState.pickedCategory]);
+
   const fetchCategories = () => {
     dispatch(fetchCategoriesAsync());
-    dispatch(fetchMealCategoriesAsync());
   };
 
-  if (categoryState.status === 'loading') {
-    return <CategorySkeleton />;
+  const fetchMeals = () => {
+    dispatch(fetchMealCategoriesAsync(categoryState.pickedCategory))
   }
+
+  const handleSearchText = (txt: string) => {
+    setSearchQuery(txt)
+  }
+
   return (
     <KeyboardAvoidingView
       backgroundColor="white"
@@ -44,8 +52,8 @@ export default function HomeScreen({ }: RootStackScreenProps<'HomeScreen'>) {
         keyboardShouldPersistTaps={'handled'}
         showsVerticalScrollIndicator={false}>
         <Header />
-        <SearchArea />
-        <TopCategories CATEGORIES={categoryState.categories} />
+        <SearchArea searchQuery={searchQuery} handleSearchText={handleSearchText} />
+        <TopCategories searchQuery={searchQuery} CATEGORIES={categoryState.categories} />
         <Title title="Popular Items" />
         <Sliders items={categoryState.meals} />
       </ScrollView>

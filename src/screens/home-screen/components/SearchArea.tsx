@@ -1,13 +1,15 @@
-import React, {FC} from 'react';
-import {HStack, Input, Text, View, VStack} from 'native-base';
-import {TouchableWithoutFeedback} from 'react-native';
-import {Ionicons, FontAwesome} from '@expo/vector-icons';
+import React, { FC } from 'react';
+import { HStack, Input, Text, View, VStack } from 'native-base';
+import { TouchableWithoutFeedback } from 'react-native';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 interface Props {
   onPress?: () => void;
+  handleSearchText: (value: string) => void
+  searchQuery: string
 }
 
-const SearchArea: FC<Props> = ({onPress}) => {
+const SearchArea: FC<Props> = ({ onPress, handleSearchText, searchQuery }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <VStack space={4} marginTop="8">
@@ -15,7 +17,7 @@ const SearchArea: FC<Props> = ({onPress}) => {
           width={'88%'}
           //_light={{ bg: '#F8F8F8' }}
           alignItems={'center'}
-          _dark={{borderWidth: 0.5, borderColor: 'gray.500'}}
+          _dark={{ borderWidth: 0.5, borderColor: 'gray.500' }}
           padding={'8px'}
           pl="5"
           pr="5"
@@ -24,7 +26,9 @@ const SearchArea: FC<Props> = ({onPress}) => {
           borderColor="gray.300"
           alignSelf="center">
           <Input
+            onChangeText={handleSearchText}
             fontWeight={'500'}
+            value={searchQuery}
             fontSize="14px"
             lineHeight="18px"
             leftElement={
@@ -33,7 +37,7 @@ const SearchArea: FC<Props> = ({onPress}) => {
             placeholder="Search.."
             flex={1}
             variant={'unstyled'}
-            _focus={{borderWidth: 0, fontWeight: 'normal'}}
+            _focus={{ borderWidth: 0, fontWeight: 'normal' }}
           />
           <View>
             <FontAwesome name="sliders" size={24} color="black" />

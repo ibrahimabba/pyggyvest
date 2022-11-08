@@ -8,8 +8,10 @@ import {
 import { EvilIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { useDispatch } from '../../../hooks/useRedux';
+import { useDispatch, useSelector } from '../../../hooks/useRedux';
 import { addToCart } from '../../../store/reducers/cart/cartSlice';
+import { selectCategories } from '../../../store/reducers/categories/categorySlice';
+import MealSkeleton from './MealSkelleton';
 
 export interface SlideShowProps {
   onPress?: () => void;
@@ -82,6 +84,11 @@ const SlideCards = ({ imgSrc, calories, title, price, time }: SlideItem) => {
 }
 
 const Sliders: FC<SlideShowProps> = ({ items, maxH, ...rest }) => {
+  const categoryState = useSelector(selectCategories)
+
+  if (categoryState.mealStatus === 'loading') {
+    return <MealSkeleton />
+  }
   return (
     <>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} mt={'20px'}>
