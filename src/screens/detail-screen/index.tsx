@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusBar, Dimensions } from 'react-native';
+import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 
 import { RootStackScreenProps } from '../../../types';
 import { KeyboardAvoidingView, ScrollView, View } from 'native-base';
@@ -39,7 +40,8 @@ export default function DetailScreen({ navigation, route }: RootStackScreenProps
     <KeyboardAvoidingView
       backgroundColor="green.600"
       flex={1}
-      paddingTop={StatusBar.currentHeight}>
+      paddingTop={StatusBar.currentHeight as number + 25}>
+        <ExpoStatusBar style='light' />
       <ScrollView
         flex={1}
         height="100%"

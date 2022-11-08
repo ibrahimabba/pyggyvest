@@ -1,5 +1,5 @@
 import React from 'react';
-import {HStack, Image, VStack, Text} from 'native-base';
+import { HStack, Image, VStack, Text } from 'native-base';
 
 export default function Header() {
   return (
@@ -14,9 +14,7 @@ export default function Header() {
       </VStack>
       <Image
         alt="user"
-        source={{
-          uri: 'https://images.pexels.com/photos/2115695/pexels-photo-2115695.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-        }}
+        source={require('../../../../assets/images/img-1101.jpg')}
         w="50px"
         h="50px"
         rounded="full"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { KeyboardAvoidingView, ScrollView } from 'native-base';
+import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 
 import { useDispatch, useSelector } from '../../hooks/useRedux';
 
@@ -50,7 +51,8 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'HomeScr
     <KeyboardAvoidingView
       backgroundColor="white"
       flex={1}
-      paddingTop={StatusBar.currentHeight}>
+      paddingTop={StatusBar.currentHeight as number + 25}>
+      <ExpoStatusBar style='dark' />
       <ScrollView
         flex={1}
         height="100%"

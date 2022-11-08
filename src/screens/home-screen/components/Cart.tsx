@@ -29,9 +29,11 @@ const Cart: FC<Props> = ({ handleNavigateToDetailsScreen }) => {
     return (
         <View w='100%' alignItems='center' position='absolute' bottom='3%'>
             <Animated.View style={{ backgroundColor: colors.green[500], width: '90%', borderRadius: 23, height: animation.current }}>
-                <Pressable onPress={handleShowAllItems} alignSelf='center' w={70} h='20px' bg='white' borderBottomRadius={50} alignItems='center' justifyContent='flex-start' >
-                    <View w={42} h={1} bg='grey' />
-                </Pressable>
+                <TouchableOpacity onPress={handleShowAllItems}>
+                    <View alignSelf='center' w={70} h='12px' bg='white' borderBottomRadius={50} alignItems='center' justifyContent='flex-start' >
+                        <View w={42} h={1} bg='grey' rounded='full' />
+                    </View>
+                </TouchableOpacity>
                 <HStack p='5' justifyContent='space-between' alignItems='center'>
                     <VStack>
                         <Text color='white' fontWeight='bold' fontSize={18}>
