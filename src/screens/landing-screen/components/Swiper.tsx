@@ -1,12 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, ImageSourcePropType, StyleSheet } from 'react-native';
-import { Pressable, Image, View, Text } from 'native-base';
-
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Animated,
+  Dimensions,
+  ImageSourcePropType,
+  StyleSheet,
+} from 'react-native';
+import {Pressable, Image, View, Text} from 'native-base';
 
 export type Img = {
-  image: ImageSourcePropType,
-  text: string
-}
+  image: ImageSourcePropType;
+  text: string;
+};
 
 type Props = {
   images: Img[];
@@ -14,13 +18,13 @@ type Props = {
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
-const Swiper: React.FC<Props> = ({ images }) => {
+const Swiper: React.FC<Props> = ({images}) => {
   const animation = useRef<Animated.Value>(new Animated.Value(0));
   const [imageCount, setTmageCount] = useState<number>(0);
   const [shouldStopSwipe, setShouldStopSwipe] = useState<boolean>(false);
 
   useEffect(() => {
-    const id = !shouldStopSwipe ? setInterval(tick, 2500) : undefined
+    const id = !shouldStopSwipe ? setInterval(tick, 2500) : undefined;
     return () => clearInterval(id);
   }, [imageCount, images.length, shouldStopSwipe]);
 
@@ -28,7 +32,7 @@ const Swiper: React.FC<Props> = ({ images }) => {
     let incrementedImage = imageCount + 1;
 
     if (incrementedImage >= images.length) {
-      return
+      return;
     }
 
     const action = Animated.spring(animation.current, {
@@ -45,13 +49,13 @@ const Swiper: React.FC<Props> = ({ images }) => {
     setShouldStopSwipe(false);
   };
   return (
-    <View h='80%' justifyContent='center'>
+    <View h="80%" justifyContent="center">
       <View>
         <Animated.View
           style={[
             styles.container,
             {
-              transform: [{ translateX: animation.current }],
+              transform: [{translateX: animation.current}],
             },
           ]}>
           {images.map((img, i) => (
@@ -60,10 +64,15 @@ const Swiper: React.FC<Props> = ({ images }) => {
               onPressIn={handlePressedInImage}
               onPressOut={handlePressedOutImage}
               w={SCREEN_WIDTH}
-              alignItems='center'
-            >
+              alignItems="center">
               <Image source={img.image} alt={`${1}`} style={styles.image} />
-              <Text color='white' fontSize='20' fontWeight='700' textAlign='center'>{img.text}</Text>
+              <Text
+                color="white"
+                fontSize="20"
+                fontWeight="700"
+                textAlign="center">
+                {img.text}
+              </Text>
             </Pressable>
           ))}
         </Animated.View>
@@ -73,7 +82,9 @@ const Swiper: React.FC<Props> = ({ images }) => {
               key={i}
               style={[
                 styles.indicator,
-                i === imageCount ? styles.activeIndicator : styles.inActiveIndicator,
+                i === imageCount
+                  ? styles.activeIndicator
+                  : styles.inActiveIndicator,
               ]}
             />
           ))}
