@@ -1,23 +1,24 @@
-import React, {useEffect} from 'react';
-import {StatusBar} from 'react-native';
-import {KeyboardAvoidingView, ScrollView} from 'native-base';
+import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
+import { KeyboardAvoidingView, ScrollView } from 'native-base';
 
-import {useDispatch, useSelector} from '../../hooks/useRedux';
+import { useDispatch, useSelector } from '../../hooks/useRedux';
 
-import {RootStackScreenProps} from '../../../types';
+import { RootStackScreenProps } from '../../../types';
 import Header from './components/Header';
 import SearchArea from './components/SearchArea';
 import TopCategories from './components/TopCategories';
 import Title from './components/Title';
 import Sliders from './components/Sliders';
-import {selectCategories} from '../../store/reducers/categories/categorySlice';
+import { selectCategories } from '../../store/reducers/categories/categorySlice';
 import {
   fetchCategoriesAsync,
   fetchMealCategoriesAsync,
 } from '../../store/reducers/categories/categoryThunks';
 import CategorySkeleton from './components/CategorySkelleton';
+import Cart from './components/Cart';
 
-export default function HomeScreen({}: RootStackScreenProps<'HomeScreen'>) {
+export default function HomeScreen({ }: RootStackScreenProps<'HomeScreen'>) {
   const categoryState = useSelector(selectCategories);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function HomeScreen({}: RootStackScreenProps<'HomeScreen'>) {
         <Title title="Popular Items" />
         <Sliders items={categoryState.meals} />
       </ScrollView>
+      <Cart />
     </KeyboardAvoidingView>
   );
 }

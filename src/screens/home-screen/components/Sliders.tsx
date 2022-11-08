@@ -1,12 +1,15 @@
-import {Text, ScrollView, VStack, Image, HStack, View} from 'native-base';
-import React, {FC} from 'react';
+import { Text, ScrollView, VStack, Image, HStack, View } from 'native-base';
+import React, { FC } from 'react';
 import {
   ImageSourcePropType,
   ImageURISource,
   TouchableOpacity,
 } from 'react-native';
-import {EvilIcons} from '@expo/vector-icons';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { useDispatch } from '../../../hooks/useRedux';
+import { addToCart } from '../../../store/reducers/cart/cartSlice';
 
 export interface SlideShowProps {
   onPress?: () => void;
@@ -19,57 +22,66 @@ export type SlideItem = {
   calories: string;
   price: string;
   time: string;
-  imgSrc: ImageURISource | ImageSourcePropType | {uri: string};
+  imgSrc: ImageURISource | ImageSourcePropType | { uri: string };
 };
 
-const SlideCards = ({imgSrc, calories, title, price, time}: SlideItem) => (
-  <VStack w={200} alignItems="center" p="4" mr="4" bg="gray.200" rounded="3xl">
-    <Text fontWeight="bold" fontSize={14}>
-      {title}
-    </Text>
-    <Text fontWeight="bold" fontSize={14}>
-      <Text fontWeight="bold" color="green.300" fontSize={14}>
-        $
+const SlideCards = ({ imgSrc, calories, title, price, time }: SlideItem) => {
+  const dispatch = useDispatch();
+  return (
+    <VStack w={200} alignItems="center" p="4" mr="4" bg="gray.200" rounded="3xl">
+      <Text fontWeight="bold" fontSize={14}>
+        {title}
       </Text>
-      {price}
-    </Text>
-    <Image mt="4" size="xl" rounded="full" source={imgSrc} alt={title} />
-    <HStack alignItems="center" justifyContent="space-between" w="100%" mt="5">
-      <VStack>
-        <Text mb="2" fontSize={'11px'} lineHeight={'15px'} fontWeight={'600'}>
-          {'🔥 ' + calories + ' Calories'}
+      <Text fontWeight="bold" fontSize={14}>
+        <Text fontWeight="bold" color="green.300" fontSize={14}>
+          $
         </Text>
-        <HStack>
-          <EvilIcons name="clock" size={20} color="grey" />
-          <Text
-            fontSize={'11px'}
-            lineHeight={'15px'}
-            fontWeight={'400'}
-            color="gray.500">
-            {' ' + time}
+        {price}
+      </Text>
+      <Image mt="4" size="xl" rounded="full" source={imgSrc} alt={title} />
+      <HStack alignItems="center" justifyContent="space-between" w="100%" mt="5">
+        <VStack>
+          <Text mb="2" fontSize={'11px'} lineHeight={'15px'} fontWeight={'600'}>
+            {'🔥 ' + calories + ' Calories'}
           </Text>
-        </HStack>
-      </VStack>
-      <TouchableOpacity>
-        <View
-          bg="white"
-          w="40px"
-          h="40px"
-          alignItems="center"
-          justifyContent="center"
-          rounded="2xl">
-          <MaterialCommunityIcons
-            name="shopping-outline"
-            size={24}
-            color="black"
-          />
-        </View>
-      </TouchableOpacity>
-    </HStack>
-  </VStack>
-);
+          <HStack>
+            <EvilIcons name="clock" size={20} color="grey" />
+            <Text
+              fontSize={'11px'}
+              lineHeight={'15px'}
+              fontWeight={'400'}
+              color="gray.500">
+              {' ' + time}
+            </Text>
+          </HStack>
+        </VStack>
+        <TouchableOpacity onPress={() => dispatch(addToCart({
+          calories,
+          imgSrc: imgSrc as { uri: string },
+          price,
+          time,
+          title
+        }))}>
+          <View
+            bg="white"
+            w="40px"
+            h="40px"
+            alignItems="center"
+            justifyContent="center"
+            rounded="2xl">
+            <MaterialCommunityIcons
+              name="shopping-outline"
+              size={24}
+              color="black"
+            />
+          </View>
+        </TouchableOpacity>
+      </HStack>
+    </VStack>
+  )
+}
 
-const Sliders: FC<SlideShowProps> = ({items, maxH, ...rest}) => {
+const Sliders: FC<SlideShowProps> = ({ items, maxH, ...rest }) => {
   return (
     <>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} mt={'20px'}>
