@@ -27,9 +27,9 @@ export const fetchCategoriesAsync = createAsyncThunk(
 
 export const fetchMealCategoriesAsync = createAsyncThunk(
   'category/fetchMealCategory',
-  async () => {
+  async (category: string) => {
     const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/filter.php?c=Pasta',
+      'https://www.themealdb.com/api/json/v1/1/filter.php?c=' + category,
     );
     if (response) {
       const resData = await response.json();
@@ -45,6 +45,7 @@ export const fetchMealCategoriesAsync = createAsyncThunk(
             calories: '44',
             price: '9.99',
             time: '20 min',
+            category
           });
         }
         return meals;

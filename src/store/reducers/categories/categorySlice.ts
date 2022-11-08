@@ -16,66 +16,76 @@ export interface Meal {
   calories: string;
   price: string;
   time: string;
+  category: string;
 }
 export interface InitialState {
   categories: Category[];
   meals: Meal[];
-  status: 'idle' | 'loading' | 'failed';
+  pickedCategory: string;
+  categoryStatus: 'idle' | 'loading' | 'failed';
+  mealStatus: 'idle' | 'loading' | 'failed';
   error: string;
 }
 
 const initialState: InitialState = {
   categories: [],
+  pickedCategory: 'Beef',
   meals: [],
-  status: 'idle',
+  categoryStatus: 'idle',
+  mealStatus: 'idle',
   error: '',
 };
 
 export const categorySlice = createSlice({
   name: 'category',
   initialState,
-  reducers: {},
+  reducers: {
+    setPickedCategory: (state, action: PayloadAction<string>) => {
+      state.pickedCategory = action.payload;
+    },
+  },
   extraReducers: builder => {
     //Categories
     builder
       .addCase(fetchCategoriesAsync.pending, state => {
-        state.status = 'loading';
+        state.categoryStatus = 'loading';
         state.error = '';
       })
       .addCase(
         fetchCategoriesAsync.fulfilled,
         (state, action: PayloadAction<Category[] | undefined>) => {
-          state.status = 'idle';
+          state.categoryStatus = 'idle';
           state.error = '';
           state.categories = action.payload || [];
         },
       )
       .addCase(fetchCategoriesAsync.rejected, (state, action) => {
-        state.status = 'failed';
+        state.categoryStatus = 'failed';
         state.error = action.error.message || '';
       });
 
     // Meals
     builder
       .addCase(fetchMealCategoriesAsync.pending, state => {
-        state.status = 'loading';
+        state.mealStatus = 'loading';
         state.error = '';
       })
       .addCase(
         fetchMealCategoriesAsync.fulfilled,
         (state, action: PayloadAction<Meal[] | undefined>) => {
-          state.status = 'idle';
+          state.mealStatus = 'idle';
           state.error = '';
           state.meals = action.payload || [];
         },
       )
       .addCase(fetchMealCategoriesAsync.rejected, (state, action) => {
-        state.status = 'failed';
+        state.mealStatus = 'failed';
         state.error = action.error.message || '';
       });
   },
 });
 
+export const {setPickedCategory} = categorySlice.actions;
 export const selectCategories = (state: RootState) => state.category;
 
 export default categorySlice.reducer;

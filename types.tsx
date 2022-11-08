@@ -3,18 +3,18 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
 
 export type RootStackParamList = {
   LandingScreen: undefined;
   HomeScreen: undefined;
-  DetalScreen: undefined;
+  DetalScreen: { cartItem: string };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

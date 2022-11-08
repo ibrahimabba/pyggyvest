@@ -8,7 +8,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {ColorSchemeName} from 'react-native';
 import LinkingConfiguration from './LinkingConfiguration';
 import RootStackNavigator from './RootStackNavigator';
-import {StatusBar} from 'expo-status-bar';
 
 export default function Navigation({
   colorScheme,
@@ -21,7 +20,6 @@ export default function Navigation({
       //theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
       <RootStackNavigator />
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'light'} />
     </NavigationContainer>
   );
 }
