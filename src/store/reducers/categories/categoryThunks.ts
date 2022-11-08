@@ -45,7 +45,7 @@ export const fetchMealCategoriesAsync = createAsyncThunk(
             calories: '44',
             price: '9.99',
             time: '20 min',
-            category
+            category,
           });
         }
         return meals;

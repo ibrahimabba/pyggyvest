@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
   ImageSourcePropType,
   StyleSheet,
 } from 'react-native';
-import { Pressable, Image, View, Text } from 'native-base';
+import {Pressable, Image, View, Text} from 'native-base';
 
 export type Img = {
   image: ImageSourcePropType;
@@ -18,7 +18,7 @@ type Props = {
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
-const Swiper: React.FC<Props> = ({ images }) => {
+const Swiper: React.FC<Props> = ({images}) => {
   const animation = useRef<Animated.Value>(new Animated.Value(0));
   const [imageCount, setTmageCount] = useState<number>(0);
   const [shouldStopSwipe, setShouldStopSwipe] = useState<boolean>(false);
@@ -52,7 +52,7 @@ const Swiper: React.FC<Props> = ({ images }) => {
           style={[
             styles.container,
             {
-              transform: [{ translateX: animation.current }],
+              transform: [{translateX: animation.current}],
             },
           ]}>
           {images.map((img, i) => (
