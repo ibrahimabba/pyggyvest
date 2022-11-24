@@ -1,8 +1,13 @@
 # pyggyvest
 
 ## Description
-A simple clone of piggyvest mobile app to demonstrate data fetching using redux and using Animated api to build animated components and
-tons of other mobile development techniques.
+A simple mobile app to demonstrate data fetching using redux and using Animated api to build animated components and other mobile development techniques.
+
+
+
+https://user-images.githubusercontent.com/45392619/203787685-442c120d-da5f-4986-9908-aa4d66a636bd.mp4
+
+
 
 ## Built With
 
